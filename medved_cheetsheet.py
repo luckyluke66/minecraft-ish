@@ -17,7 +17,7 @@ class TestButton(ursina.Button):
             parent = ursina.scene,
             model = "cube",
             texture = "brick",
-             color = ursina.color.blue,
+            color = ursina.color.blue,
             highlight_color = ursina.color.red,
             pressed_color = ursina.color.lime,
             )

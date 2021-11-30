@@ -4,7 +4,9 @@ from ursina.texture_importer import load_texture
 from ursina.vec2 import Vec2
 from ursina.vec3 import Vec3
 
+
 app = ursina.Ursina()
+block_pick = 1
 
 grass_texture = load_texture("textures/grass_block.png")
 stone_texture = load_texture("textures/stone_block.png")
@@ -14,11 +16,13 @@ sky_texture = load_texture("textures/skybox.png")
 arm_texture = load_texture("textures/arm_texture.png")
 hotbar_texture = load_texture("textures/hotbar.png")
 target_texture = load_texture("textures/target.png")
+hotbar_grass = load_texture("textures/hotbar_grass.png")
+hotbar_dirt = load_texture("textures/hotbar_dirt.png")
+hotbar_stone = load_texture("textures/hotbar_stone.png")
+hotbar_brick = load_texture("textures/hotbar_brick.png")
 
 def update():
-    global block_pick 
-    block_pick = 1
-    #FIXME: slektor se vraci na puvodni misto 
+    global block_pick
     if ursina.held_keys["1"]:
         block_pick = 1
     if ursina.held_keys["2"]:
@@ -56,13 +60,13 @@ class Voxel(ursina.Button):
                 if block_pick == 1:
                     voxel = Voxel(position = self.position + ursina.mouse.normal, texture = grass_texture)
                 if block_pick == 2:
-                    voxel = Voxel(position = self.position + ursina.mouse.normal, texture = stone_texture)
-                if block_pick == 3:
-                    voxel = Voxel(position = self.position + ursina.mouse.normal, texture = brick_texture)
-                if block_pick == 4:
                     voxel = Voxel(position = self.position + ursina.mouse.normal, texture = dirt_texture)
+                if block_pick == 3:
+                    voxel = Voxel(position = self.position + ursina.mouse.normal, texture = stone_texture)
+                if block_pick == 4:
+                    voxel = Voxel(position = self.position + ursina.mouse.normal, texture = brick_texture)
 
-                    #TODO: pridat dalsi blocky 
+                # TODO: pridat dalsi blocky 
             if key == "left mouse down":
                 ursina.destroy(self)
 
@@ -100,6 +104,46 @@ class Hotbar(ursina.Entity):
             scale = (0.9,0.15),
             position = Vec2(-0.44, -0.4)
         )
+class Grass(ursina.Entity):
+    def __init__(self):
+        super().__init__(
+            parent = ursina.camera.ui,
+            model = "quad",
+            texture = hotbar_grass,
+            scale = (0.10,0.10),
+            position = Vec2(-0.820, -0.4)
+        )    
+            
+class Dirt(ursina.Entity):
+    def __init__(self):
+        super().__init__(
+            parent = ursina.camera.ui,
+            model = "quad",
+            texture = hotbar_dirt,
+            scale = (0.10,0.10),
+            position = Vec2(-0.675, -0.4)
+        )    
+
+class Stone(ursina.Entity):
+    def __init__(self):
+        super().__init__(
+            parent = ursina.camera.ui,
+            model = "quad",
+            texture = hotbar_stone,
+            scale = (0.10,0.10),
+            position = Vec2(-0.53, -0.4)
+        )
+
+class Brick(ursina.Entity):
+    def __init__(self):
+        super().__init__(
+            parent = ursina.camera.ui,
+            model = "quad",
+            texture = hotbar_brick,
+            scale = (0.10,0.10),
+            position = Vec2(-0.385, -0.4)
+        )
+            
 
 class Pointer(ursina.Entity):
     def __init__(self):
@@ -135,5 +179,9 @@ sky = Sky()
 hand = Hand()
 hotbar = Hotbar()
 pointer = Pointer()
+grass = Grass()
+dirt = Dirt()
+stone = Stone()
+brick = Brick()
 
 app.run()
